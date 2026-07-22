@@ -1,9 +1,68 @@
+import { useMemo, useState } from 'react';
+
 export default function FichaRepuesto({ repuesto, esCompatible, vehiculoActivo, esFav, onToggleFavorito, onAgregarPedido }) {
+  const imagenes = useMemo(() => {
+    const items = Array.isArray(repuesto?.imagenes) && repuesto.imagenes.length > 0
+      ? repuesto.imagenes
+      : repuesto?.imagenUrl
+        ? [repuesto.imagenUrl]
+        : [];
+
+    return items;
+  }, [repuesto]);
+
+  const [indiceImagen, setIndiceImagen] = useState(0);
+
+  const imagenActual = imagenes[indiceImagen] || null;
+
+  const irAImagen = (direccion) => {
+    if (imagenes.length <= 1) return;
+
+    setIndiceImagen((prev) => {
+      if (direccion === 'next') {
+        return prev === imagenes.length - 1 ? 0 : prev + 1;
+      }
+
+      return prev === 0 ? imagenes.length - 1 : prev - 1;
+    });
+  };
+
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 md:p-10 shadow-2xl mb-8">
       <div className="flex flex-col md:flex-row gap-8 lg:gap-12">
-        <div className="w-full md:w-1/2 bg-slate-800 rounded-lg aspect-video flex flex-col items-center justify-center border border-slate-700 relative overflow-hidden group">
-          <span className="text-slate-500 font-mono text-sm tracking-widest">IMAGEN NO DISPONIBLE</span>
+        <div className="w-full md:w-1/2 bg-slate-800 rounded-[1.5rem] aspect-video flex flex-col items-center justify-center border border-slate-700 relative overflow-hidden group shadow-[0_18px_50px_-32px_rgba(15,23,42,0.95)]">
+          {imagenActual ? (
+            <div className="absolute inset-0 overflow-hidden">
+              <img
+                src={imagenActual}
+                alt={repuesto.nombre}
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(2,6,23,0.55),transparent_55%)]" />
+            </div>
+          ) : (
+            <span className="text-slate-500 font-mono text-sm tracking-widest">IMAGEN NO DISPONIBLE</span>
+          )}
+
+          {imagenes.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={() => irAImagen('prev')}
+                className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-slate-950/80 px-3 py-2 text-white hover:bg-slate-900 transition"
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                onClick={() => irAImagen('next')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-slate-950/80 px-3 py-2 text-white hover:bg-slate-900 transition"
+              >
+                →
+              </button>
+            </>
+          )}
+
           <button 
             onClick={onToggleFavorito}
             className="absolute top-4 right-4 p-3 bg-slate-900/80 backdrop-blur-sm rounded-full hover:bg-slate-700 transition-colors border border-slate-700"
@@ -12,6 +71,19 @@ export default function FichaRepuesto({ repuesto, esCompatible, vehiculoActivo, 
               {esFav ? '❤️' : '🤍'}
             </span>
           </button>
+
+          {imagenes.length > 1 && (
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+              {imagenes.map((_, index) => (
+                <button
+                  key={`${repuesto.sku}-${index}`}
+                  type="button"
+                  onClick={() => setIndiceImagen(index)}
+                  className={`h-2 w-8 rounded-full transition ${index === indiceImagen ? 'bg-white' : 'bg-white/40'}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="w-full md:w-1/2 flex flex-col justify-center">

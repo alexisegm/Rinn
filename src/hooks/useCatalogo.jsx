@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { catalogService } from '../services/catalogService';
 
-export function useCatalogo(categoriaId = null, searchTerm = "", vehiculoId = null) {
+export function useCatalogo(categoriaId = null, searchTerm = "", vehiculoId = null, vehiculoIds = [], precioMin = null, precioMax = null) {
   const [repuestos, setRepuestos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,7 +14,10 @@ export function useCatalogo(categoriaId = null, searchTerm = "", vehiculoId = nu
       const { data, error: serviceError } = await catalogService.getCatalogo({
         categoriaId,
         searchTerm,
-        vehiculoId
+        vehiculoId,
+        vehiculoIds,
+        precioMin,
+        precioMax
       });
 
       if (serviceError) throw serviceError;
@@ -29,7 +32,7 @@ export function useCatalogo(categoriaId = null, searchTerm = "", vehiculoId = nu
 
   useEffect(() => {
     fetchRepuestos();
-  }, [categoriaId, searchTerm, vehiculoId]);
+  }, [categoriaId, searchTerm, vehiculoId, vehiculoIds, precioMin, precioMax]);
 
   return { repuestos, isLoading, error, refetch: fetchRepuestos };
 }

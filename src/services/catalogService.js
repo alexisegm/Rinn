@@ -1,4 +1,5 @@
 import { globalStoreSupabase } from './globalStoreSupabase';
+import { getRepuestoImagenes } from '../assets/repuestos';
 
 const repuestosStore = globalStoreSupabase('repuestos');
 const categoriasStore = globalStoreSupabase('categorias');
@@ -6,7 +7,7 @@ const tiendasStore = globalStoreSupabase('tiendas');
 const compatibilidadesStore = globalStoreSupabase('compatibilidades');
 
 export const catalogService = {
-  async getCatalogo({ categoriaId = null, searchTerm = '', vehiculoId = null } = {}) {
+  async getCatalogo({ categoriaId = null, searchTerm = '', vehiculoId = null, vehiculoIds = [], precioMin = null, precioMax = null } = {}) {
     let query = repuestosStore.getAll(`
       id, sku, nombre, categoria_id,
       inventario_tienda (precio_usd, stock)
@@ -16,19 +17,33 @@ export const catalogService = {
 
     if (error) throw error;
 
-    const repuestosFormateados = data.map((item) => ({
-      id: item.id,
-      sku: item.sku,
-      nombre: item.nombre,
-      precio: item.inventario_tienda?.[0]?.precio_usd || '0.00',
-      stock: item.inventario_tienda?.[0]?.stock || 0,
-      categoria_id: item.categoria_id
-    }));
+    const repuestosFormateados = data.map((item) => {
+      const imagenes = getRepuestoImagenes(item.nombre);
+
+      return {
+        id: item.id,
+        sku: item.sku,
+        nombre: item.nombre,
+        precio: item.inventario_tienda?.[0]?.precio_usd || '0.00',
+        stock: item.inventario_tienda?.[0]?.stock || 0,
+        categoria_id: item.categoria_id,
+        imagenUrl: imagenes[0] || null,
+        imagenes
+      };
+    });
 
     let filtered = repuestosFormateados;
 
+    const idsVehiculos = Array.isArray(vehiculoIds)
+      ? vehiculoIds.filter(Boolean)
+      : [];
+
     if (vehiculoId) {
-      const { data: compatData, error: compatError } = await compatibilidadesStore.getAll('*', { vehiculo_id: vehiculoId });
+      idsVehiculos.push(vehiculoId);
+    }
+
+    if (idsVehiculos.length > 0) {
+      const { data: compatData, error: compatError } = await compatibilidadesStore.getAll('*', { vehiculo_id: idsVehiculos });
       if (compatError) throw compatError;
       const compatibleIds = new Set((compatData || []).map((item) => item.repuesto_id));
       filtered = filtered.filter((item) => compatibleIds.has(item.id));
@@ -43,7 +58,42 @@ export const catalogService = {
       filtered = filtered.filter((item) => item.nombre.toLowerCase().includes(term) || item.sku.toLowerCase().includes(term));
     }
 
+    const precioMinParsed = Number(precioMin);
+    const precioMaxParsed = Number(precioMax);
+
+    if (!Number.isNaN(precioMinParsed) && precioMinParsed > 0) {
+      filtered = filtered.filter((item) => Number(item.precio) >= precioMinParsed);
+    }
+
+    if (!Number.isNaN(precioMaxParsed) && precioMaxParsed > 0) {
+      filtered = filtered.filter((item) => Number(item.precio) <= precioMaxParsed);
+    }
+
     return { data: filtered, error: null };
+  },
+
+  async getCategoriasConConteo() {
+    const { data, error } = await repuestosStore.getAll('id, categoria_id');
+
+    if (error) throw error;
+
+    const conteos = (data || []).reduce((acc, item) => {
+      const key = item.categoria_id;
+      acc[key] = (acc[key] || 0) + 1;
+      return acc;
+    }, {});
+
+    const { data: categoriasData, error: categoriasError } = await categoriasStore.getAll('id, nombre', {}, { orderBy: { column: 'nombre' } });
+
+    if (categoriasError) throw categoriasError;
+
+    return {
+      data: (categoriasData || []).map((categoria) => ({
+        ...categoria,
+        cantidad: conteos[categoria.id] || 0
+      })),
+      error: null
+    };
   },
 
   async getRepuestoBySku(sku, vehiculoId = null) {
@@ -75,6 +125,8 @@ export const catalogService = {
         stock: inv.stock
       }));
 
+    const imagenes = getRepuestoImagenes(data.nombre);
+
     const repuestoFormateado = {
       id: data.id,
       sku: data.sku,
@@ -84,7 +136,9 @@ export const catalogService = {
       categoria: data.categorias?.nombre || 'General',
       precio: precioRef,
       stock: totalStock,
-      disponibilidad: tiendasDisponibles
+      disponibilidad: tiendasDisponibles,
+      imagenUrl: imagenes[0] || null,
+      imagenes
     };
 
     let compatibilidad = null;

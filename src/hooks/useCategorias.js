@@ -10,9 +10,20 @@ export function useCategorias() {
     const fetchCategorias = async () => {
       try {
         setIsLoadingCat(true);
-        const { data, error } = await catalogService.getCategorias();
-        if (error) throw error;
-        setCategorias(data || []);
+        const [{ data: categoriasData, error: categoriasError }, { data: conteosData, error: conteosError }] = await Promise.all([
+          catalogService.getCategorias(),
+          catalogService.getCategoriasConConteo()
+        ]);
+
+        if (categoriasError) throw categoriasError;
+        if (conteosError) throw conteosError;
+
+        const categoriasConConteo = (categoriasData || []).map((categoria) => ({
+          ...categoria,
+          cantidad: (conteosData || []).find((item) => item.id === categoria.id)?.cantidad || 0
+        }));
+
+        setCategorias(categoriasConConteo);
       } catch (err) {
         console.error('Error al cargar categorías:', err);
       } finally {
