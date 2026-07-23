@@ -21,12 +21,12 @@ export default function CatalogoView() {
   const { searchTerm, ejecutarBusqueda } = useSearch();
   const { vehiculoActivo, vehiculosDisponibles, isLoadingGarage, limpiarGarage } = useGarage();
   const vehiculoIds = useMemo(() => {
-    if (vehiculoActivo?.id) {
-      return [vehiculoActivo.id];
+    if (!vehiculoActivo?.id) {
+      return [];
     }
 
-    return vehiculosDisponibles.map((vehiculo) => vehiculo.id);
-  }, [vehiculoActivo, vehiculosDisponibles]);
+    return [vehiculoActivo.id];
+  }, [vehiculoActivo]);
   const { repuestos, isLoading, error, refetch } = useCatalogo(categoriaActiva, searchTerm, vehiculoActivo?.id, vehiculoIds, precioMin, precioMax);
 
   useEffect(() => {

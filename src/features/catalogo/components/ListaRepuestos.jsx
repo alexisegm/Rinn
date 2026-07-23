@@ -12,6 +12,7 @@ export default function ListaRepuestos({ repuestos, vista = 'grid' }) {
           precio={repuesto.precio}
           stock={repuesto.stock}
           imagenUrl={repuesto.imagenUrl || null}
+          categoria={repuesto.categoria}
           vista={vista}
         />
       ))}

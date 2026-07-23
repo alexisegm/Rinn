@@ -88,43 +88,57 @@ export default function SidebarFiltros({ categoriaActiva, setCategoriaActiva, pr
             <p className="text-sm text-slate-500 animate-pulse">Cargando filtros...</p>
           ) : (
             <div className="space-y-3">
-              <button 
-                onClick={() => setCategoriaActiva(null)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-[1rem] font-medium text-sm transition-all duration-200 ${
-                  categoriaActiva === null 
-                    ? 'bg-gradient-to-r from-blue-600/20 to-cyan-500/10 text-blue-200 border border-blue-500/30 shadow-[0_10px_25px_-12px_rgba(59,130,246,0.9)]' 
-                    : 'text-slate-300 hover:bg-slate-800 hover:text-white border border-transparent'
-                }`}
-              >
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-lg">📦</span>
-                <span className="flex-1 text-left">Todos los repuestos</span>
-                <span className="rounded-full bg-slate-800 px-2 py-0.5 text-[10px] font-bold text-slate-300">
-                  {categorias.reduce((acc, cat) => acc + Number(cat.cantidad || 0), 0)}
-                </span>
-              </button>
+              <section className="rounded-[1rem] border border-slate-800 bg-slate-800/45 p-2.5">
+                <div className="mb-2 flex items-center justify-between">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-400">Vista general</span>
+                  <span className="text-[10px] font-semibold text-slate-400">Todas</span>
+                </div>
 
-              <ul className="space-y-2">
-                {categorias.map((cat) => (
-                  <li key={cat.id}>
-                    <button 
-                      onClick={() => setCategoriaActiva(cat.id)}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-[1rem] font-medium text-sm transition-all duration-200 ${
-                        categoriaActiva === cat.id 
-                          ? 'bg-gradient-to-r from-blue-600/20 to-cyan-500/10 text-blue-200 border border-blue-500/30 shadow-[0_10px_25px_-12px_rgba(59,130,246,0.9)]' 
-                          : 'text-slate-300 hover:bg-slate-800 hover:text-white border border-transparent'
-                      }`}
-                    >
-                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-lg">{iconosCategoria[cat.id] || '🧩'}</span>
-                      <span className="flex-1 text-left">{cat.nombre}</span>
-                      <span className="rounded-full bg-slate-800 px-2 py-0.5 text-[10px] font-bold text-slate-300">
-                        {cat.cantidad || 0}
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
+                <button 
+                  onClick={() => setCategoriaActiva(null)}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-[1rem] font-medium text-sm transition-all duration-200 ${
+                    categoriaActiva === null 
+                      ? 'bg-gradient-to-r from-blue-600/20 to-cyan-500/10 text-blue-200 border border-blue-500/30 shadow-[0_10px_25px_-12px_rgba(59,130,246,0.9)]' 
+                      : 'text-slate-300 hover:bg-slate-800 hover:text-white border border-transparent'
+                  }`}
+                >
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-lg">📦</span>
+                  <span className="flex-1 text-left">Todos los repuestos</span>
+                  <span className="rounded-full bg-slate-800 px-2 py-0.5 text-[10px] font-bold text-slate-300">
+                    {categorias.reduce((acc, cat) => acc + Number(cat.cantidad || 0), 0)}
+                  </span>
+                </button>
+              </section>
 
-              <div className="rounded-[1rem] border border-slate-800 bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-3 mt-2">
+              <section className="rounded-[1rem] border border-slate-800 bg-slate-800/45 p-2.5">
+                <div className="mb-2 flex items-center justify-between">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-400">Secciones</span>
+                  <span className="text-[10px] font-semibold text-slate-400">Organizadas</span>
+                </div>
+
+                <ul className="space-y-2">
+                  {categorias.map((cat) => (
+                    <li key={cat.id}>
+                      <button 
+                        onClick={() => setCategoriaActiva(cat.id)}
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-[1rem] font-medium text-sm transition-all duration-200 ${
+                          categoriaActiva === cat.id 
+                            ? 'bg-gradient-to-r from-blue-600/20 to-cyan-500/10 text-blue-200 border border-blue-500/30 shadow-[0_10px_25px_-12px_rgba(59,130,246,0.9)]' 
+                            : 'text-slate-300 hover:bg-slate-800 hover:text-white border border-transparent'
+                        }`}
+                      >
+                        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-lg">{iconosCategoria[cat.id] || '🧩'}</span>
+                        <span className="flex-1 text-left">{cat.nombre}</span>
+                        <span className="rounded-full bg-slate-800 px-2 py-0.5 text-[10px] font-bold text-slate-300">
+                          {cat.cantidad || 0}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              <section className="rounded-[1rem] border border-slate-800 bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-3">
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <h4 className="text-[11px] font-bold uppercase tracking-[0.28em] text-amber-300">
                     Rango de precio
@@ -163,7 +177,7 @@ export default function SidebarFiltros({ categoriaActiva, setCategoriaActiva, pr
                     />
                   </label>
                 </div>
-              </div>
+              </section>
             </div>
           )}
         </div>

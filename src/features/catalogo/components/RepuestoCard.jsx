@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import FallbackImage from '../../../ui/FallbackImage';
 import { useFavoritos } from '../../../context/FavoritosContext';
 
-export default function RepuestoCard({ id, sku, nombre, precio, stock, imagenUrl, vista = 'grid' }) {
+export default function RepuestoCard({ id, sku, nombre, precio, stock, imagenUrl, categoria, vista = 'grid' }) {
   const { toggleFavorito, isFavorito } = useFavoritos();
   const esFav = isFavorito(id);
   const isList = vista === 'list';
@@ -38,6 +38,9 @@ export default function RepuestoCard({ id, sku, nombre, precio, stock, imagenUrl
       <div className={`flex flex-col flex-1 p-4 ${isList ? 'justify-between' : ''}`}>
         <div>
           <span className="text-[11px] font-mono uppercase tracking-[0.28em] text-slate-500">SKU: {sku}</span>
+          <div className="mt-2 inline-flex items-center rounded-full border border-slate-700 bg-slate-800 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.26em] text-slate-300">
+            {categoria || 'General'}
+          </div>
           <h4 className="mt-2 text-[15px] font-bold text-slate-100 leading-snug line-clamp-2 group-hover:text-blue-300 transition-colors">
             {nombre}
           </h4>

@@ -10,6 +10,7 @@ export const catalogService = {
   async getCatalogo({ categoriaId = null, searchTerm = '', vehiculoId = null, vehiculoIds = [], precioMin = null, precioMax = null } = {}) {
     let query = repuestosStore.getAll(`
       id, sku, nombre, categoria_id,
+      categorias (nombre),
       inventario_tienda (precio_usd, stock)
     `);
 
@@ -27,6 +28,7 @@ export const catalogService = {
         precio: item.inventario_tienda?.[0]?.precio_usd || '0.00',
         stock: item.inventario_tienda?.[0]?.stock || 0,
         categoria_id: item.categoria_id,
+        categoria: item.categorias?.nombre || 'General',
         imagenUrl: imagenes[0] || null,
         imagenes
       };
@@ -55,7 +57,13 @@ export const catalogService = {
 
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      filtered = filtered.filter((item) => item.nombre.toLowerCase().includes(term) || item.sku.toLowerCase().includes(term));
+      filtered = filtered.filter((item) => {
+        const nombre = String(item.nombre || '').toLowerCase();
+        const sku = String(item.sku || '').toLowerCase();
+        const categoria = String(item.categoria || '').toLowerCase();
+
+        return nombre.includes(term) || sku.includes(term) || categoria.includes(term);
+      });
     }
 
     const precioMinParsed = Number(precioMin);
