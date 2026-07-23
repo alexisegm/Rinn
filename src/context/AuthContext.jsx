@@ -38,13 +38,19 @@ export function AuthProvider({ children }) {
     return data;
   };
 
+  const resetPassword = async (email, redirectTo) => {
+    const { data, error } = await authService.resetPassword(email, redirectTo);
+    if (error) throw error;
+    return data;
+  };
+
   const logout = async () => {
     const { error } = await authService.signOut();
     if (error) throw error;
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, isLoadingAuth, login, register, logout }}>
+    <AuthContext.Provider value={{ user, session, isLoadingAuth, login, register, resetPassword, logout }}>
       {children}
     </AuthContext.Provider>
   );
