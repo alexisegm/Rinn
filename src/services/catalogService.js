@@ -9,7 +9,7 @@ const compatibilidadesStore = globalStoreSupabase('compatibilidades');
 export const catalogService = {
   async getCatalogo({ categoriaId = null, searchTerm = '', vehiculoId = null, vehiculoIds = [], precioMin = null, precioMax = null } = {}) {
     let query = repuestosStore.getAll(`
-      id, sku, nombre, categoria_id,
+      id, sku, nombre, categoria_id, es_universal,
       categorias (nombre),
       inventario_tienda (precio_usd, stock)
     `);
@@ -29,6 +29,7 @@ export const catalogService = {
         stock: item.inventario_tienda?.[0]?.stock || 0,
         categoria_id: item.categoria_id,
         categoria: item.categorias?.nombre || 'General',
+        es_universal: item.es_universal || false,
         imagenUrl: imagenes[0] || null,
         imagenes
       };
@@ -48,7 +49,9 @@ export const catalogService = {
       const { data: compatData, error: compatError } = await compatibilidadesStore.getAll('*', { vehiculo_id: idsVehiculos });
       if (compatError) throw compatError;
       const compatibleIds = new Set((compatData || []).map((item) => item.repuesto_id));
-      filtered = filtered.filter((item) => compatibleIds.has(item.id));
+      
+      // Nueva regla de negocio inclusiva: es compatible OR es universal
+      filtered = filtered.filter((item) => compatibleIds.has(item.id) || item.es_universal);
     }
 
     if (categoriaId) {
@@ -111,6 +114,7 @@ export const catalogService = {
       nombre,
       descripcion,
       especificaciones,
+      es_universal,
       categorias (nombre),
       inventario_tienda (
         precio_usd, 
@@ -142,6 +146,7 @@ export const catalogService = {
       descripcion: data.descripcion || 'Sin descripción detallada disponible.',
       especificaciones: data.especificaciones || null,
       categoria: data.categorias?.nombre || 'General',
+      es_universal: data.es_universal || false,
       precio: precioRef,
       stock: totalStock,
       disponibilidad: tiendasDisponibles,

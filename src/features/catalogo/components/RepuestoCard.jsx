@@ -1,19 +1,48 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import FallbackImage from '../../../ui/FallbackImage';
 import { useFavoritos } from '../../../context/FavoritosContext';
+import { useCart } from '../../../context/CartContext';
 
 export default function RepuestoCard({ id, sku, nombre, precio, stock, imagenUrl, categoria, vista = 'grid' }) {
   const { toggleFavorito, isFavorito } = useFavoritos();
+  const { agregarAlCarrito } = useCart();
+  const navigate = useNavigate();
   const esFav = isFavorito(id);
   const isList = vista === 'list';
 
   const handleToggle = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     toggleFavorito({ id, sku, nombre, precio, stock, imagenUrl });
   };
 
+  const handleCardClick = () => {
+    navigate(`/repuesto/${sku}`);
+  };
+
+  const handleCardKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleCardClick();
+    }
+  };
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (stock > 0) {
+      agregarAlCarrito({ id, sku, nombre, precio, stock, imagenUrl, categoria }, 1);
+    }
+  };
+
   return (
-    <article className={`group overflow-hidden rounded-[1.5rem] border border-slate-800 bg-slate-900/90 shadow-[0_18px_45px_-30px_rgba(15,23,42,0.95)] transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-500/60 ${isList ? 'flex flex-col sm:flex-row' : 'flex flex-col'}`}>
+    <article
+      onClick={handleCardClick}
+      onKeyDown={handleCardKeyDown}
+      role="link"
+      tabIndex="0"
+      className={`group cursor-pointer overflow-hidden rounded-[1.5rem] border border-slate-800 bg-slate-900/90 shadow-[0_18px_45px_-30px_rgba(15,23,42,0.95)] transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-500/60 ${isList ? 'flex flex-col sm:flex-row' : 'flex flex-col'}`}
+    >
       <div className={`relative overflow-hidden ${isList ? 'sm:w-52 sm:h-auto h-48' : 'h-48'} border-b border-slate-800 sm:border-b-0 sm:border-r sm:border-slate-800`}>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.18),_transparent_58%)]" />
         <FallbackImage src={imagenUrl} alt={nombre} />
@@ -57,11 +86,17 @@ export default function RepuestoCard({ id, sku, nombre, precio, stock, imagenUrl
         </div>
 
         <div className={`mt-4 flex gap-2 ${isList ? 'justify-end' : 'flex-col'}`}>
-          <button className="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-blue-500">
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            disabled={stock <= 0}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-500"
+          >
             <span>🛒</span> Añadir
           </button>
           <Link
             to={`/repuesto/${sku}`}
+            onClick={(e) => e.stopPropagation()}
             className="inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-800 px-4 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-slate-500 hover:text-white"
           >
             Ver Detalles
