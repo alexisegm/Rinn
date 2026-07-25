@@ -1,6 +1,6 @@
-# RINN PRO 🚗⚙️
+# RINN™🚗⚙️
 
-**RINN PRO** es una plataforma web moderna y escalable diseñada para la comercialización, gestión y validación de compatibilidad de repuestos automotrices. Construida con React, la aplicación ofrece una experiencia de usuario fluida mediante una arquitectura tolerante a fallos, gestión de estados complejos y un diseño altamente modular.
+**RINN** es una plataforma web moderna y escalable diseñada para la comercialización, gestión y validación de compatibilidad de repuestos automotrices. Construida con React, la aplicación ofrece una experiencia de usuario fluida mediante una arquitectura tolerante a fallos, gestión de estados complejos y un diseño altamente modular.
 
 ## 🚀 Características Principales
 

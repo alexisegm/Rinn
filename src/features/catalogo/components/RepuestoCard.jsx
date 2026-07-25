@@ -45,7 +45,13 @@ export default function RepuestoCard({ id, sku, nombre, precio, stock, imagenUrl
     >
       <div className={`relative overflow-hidden ${isList ? 'sm:w-52 sm:h-auto h-48' : 'h-48'} border-b border-slate-800 sm:border-b-0 sm:border-r sm:border-slate-800`}>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.18),_transparent_58%)]" />
-        <FallbackImage src={imagenUrl} alt={nombre} />
+        
+        {/* Opción B aplicada: w-full h-full object-contain bg-white p-2 para contener sin recortar */}
+        <FallbackImage 
+          src={imagenUrl} 
+          alt={nombre} 
+          className="w-full h-full object-contain bg-white p-2" 
+        />
 
         <button
           onClick={handleToggle}

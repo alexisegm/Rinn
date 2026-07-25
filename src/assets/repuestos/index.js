@@ -64,6 +64,68 @@ export function getRepuestoImagenes(nombre = '') {
         resolveRepuestoImage('valvula-blow-off-toyota-4runnner2021.jpg'),
         resolveRepuestoImage('valvula-blow-off-toyota-4runnner2021-parte2.jpg')
       ]
+    },
+    // Nuevas reglas integradas:
+    {
+      keywords: ['aceite', 'sintetico', 'motul'],
+      images: [
+        resolveRepuestoImage('aceite-sintetico-motul.jpg')
+      ]
+    },
+    {
+      keywords: ['alfombra', 'weathertech', 'medida'],
+      images: [
+        resolveRepuestoImage('ALFOMBRAS-WEATHERTECH-A-LA-MEDIDA.jpg'),
+        resolveRepuestoImage('ALFOMBRAS-WEATHERTECH-A-LA-MEDIDA-2.jpg')
+      ]
+    },
+    {
+      keywords: ['bombillo', 'led', 'h11', 'canbus'],
+      images: [
+        resolveRepuestoImage('bombillos--led-h11-canbus.jpg')
+      ]
+    },
+    {
+      keywords: ['cera', 'carnauba', 'pasta'],
+      images: [
+        resolveRepuestoImage('cera-carnauba-en-pasta.jpg')
+      ]
+    },
+    {
+      keywords: ['champu', 'meguiars', 'gold'],
+      images: [
+        resolveRepuestoImage('Champu-meguiars-gold-class.jpg')
+      ]
+    },
+    {
+      keywords: ['forro', 'volante', 'cuero'],
+      images: [
+        resolveRepuestoImage('forro-de-volante-en--cuero.jpg')
+      ]
+    },
+    {
+      keywords: ['gato', 'hidraulico', 'caiman', 'toneladas'],
+      images: [
+        resolveRepuestoImage('gato-hidraulico-tipo-caiman-2-toneladas.jpg')
+      ]
+    },
+    {
+      keywords: ['juego', 'dados', 'piezas', 'truper'],
+      images: [
+        resolveRepuestoImage('juego-de-dados -108-piezas-truper.jpg')
+      ]
+    },
+    {
+      keywords: ['refrigerante', 'prestone'],
+      images: [
+        resolveRepuestoImage('refrigerante-Prestone.jpg')
+      ]
+    },
+    {
+      keywords: ['snorkel', 'safari'],
+      images: [
+        resolveRepuestoImage('snorkel-safari-original.jpg')
+      ]
     }
   ];
 
