@@ -1,4 +1,4 @@
-# Product Brief: RINN PRO
+# Product Brief: RINN
 
 ## 1. Planteamiento del Problema
 El ecosistema de repuestos automotrices en Venezuela enfrenta desafíos técnicos y logísticos significativos debido a la antigüedad, diversidad y constante necesidad de mantenimiento del parque automotor nacional. Actualmente, el mercado sufre de una profunda fragmentación y una falta de digitalización formal que afecta a ambas partes de la cadena comercial:

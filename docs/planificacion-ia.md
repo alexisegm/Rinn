@@ -1,6 +1,6 @@
-# Planificación y Uso de IA Generativa en RINN PRO
+# Planificación y Uso de IA Generativa en RINN
 
-Durante el ciclo de vida del desarrollo de RINN PRO (abarcando 82 fases y múltiples iteraciones de refactorización), se implementó un flujo de trabajo asistido por IA Generativa. El desarrollador asumió el rol de arquitecto de software, líder técnico y supervisor de calidad, mientras que la IA fue utilizada como una herramienta de implementación, generación de código y asistencia en procesos de refactorización estructural.
+Durante el ciclo de vida del desarrollo de RINN (abarcando 82 fases y múltiples iteraciones de refactorización), se implementó un flujo de trabajo asistido por IA Generativa. El desarrollador asumió el rol de arquitecto de software, líder técnico y supervisor de calidad, mientras que la IA fue utilizada como una herramienta de implementación, generación de código y asistencia en procesos de refactorización estructural.
 
 ## 1. Casos de Uso Específicos (Delegados a la IA)
 * **Implementación de Código y *Boilerplate*:** Generación rápida de estructuras repetitivas para *Custom Hooks*, Contextos (`AuthContext`, `CartContext`, `GarageContext`) y la maquetación inicial de componentes con Tailwind CSS[cite: 5, 6].

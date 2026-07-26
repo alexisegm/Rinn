@@ -5,7 +5,7 @@
 ---
 
 ## 1. Resumen Ejecutivo
-El presente documento define el alcance técnico y funcional de la primera versión operativa (MVP) de **RINN PRO**. Utilizando la metodología de priorización MoSCoW, se delimitan las características exactas que componen esta entrega. El objetivo principal es demostrar un flujo completo y coherente de la experiencia de usuario (UX), respaldado por una arquitectura de software limpia y una integración de datos funcional (Supabase).
+El presente documento define el alcance técnico y funcional de la primera versión operativa (MVP) de **RINN**. Utilizando la metodología de priorización MoSCoW, se delimitan las características exactas que componen esta entrega. El objetivo principal es demostrar un flujo completo y coherente de la experiencia de usuario (UX), respaldado por una arquitectura de software limpia y una integración de datos funcional (Supabase).
 
 ---
 

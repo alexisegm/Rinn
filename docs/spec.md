@@ -1,7 +1,7 @@
-# Especificaciones Técnicas (Spec) - RINN PRO
+# Especificaciones Técnicas (Spec) - RINN
 
 ## 1. Descripción General
-RINN PRO es una plataforma web orientada a la gestión y comercialización de repuestos automotrices. Su objetivo es proporcionar una experiencia de usuario fluida, desde la exploración del catálogo hasta la gestión de un carrito de compras y la validación de compatibilidad de piezas con vehículos específicos. Todo esto bajo una interfaz tolerante a fallos, altamente modular y con persistencia de estado y autenticación centralizada.
+RINN es una plataforma web orientada a la gestión y comercialización de repuestos automotrices. Su objetivo es proporcionar una experiencia de usuario fluida, desde la exploración del catálogo hasta la gestión de un carrito de compras y la validación de compatibilidad de piezas con vehículos específicos. Todo esto bajo una interfaz tolerante a fallos, altamente modular y con persistencia de estado y autenticación centralizada.
 
 ## 2. Stack Tecnológico
 * **Entorno de Desarrollo:** Node.js y configuración moderna con Vite[cite: 5].

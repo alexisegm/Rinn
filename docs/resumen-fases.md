@@ -1,6 +1,6 @@
-# Resumen de Fases (Oleadas de Desarrollo) - RINN PRO
+# Resumen de Fases (Oleadas de Desarrollo) - RINN
 
-El proyecto RINN PRO fue ejecutado bajo un esquema de planificación evolutivo de 82 iteraciones, priorizando la creación de un esqueleto modular escalable y finalizando con una profunda refactorización arquitectónica para garantizar su mantenibilidad.
+El proyecto RINN fue ejecutado bajo un esquema de planificación evolutivo de 82 iteraciones, priorizando la creación de un esqueleto modular escalable y finalizando con una profunda refactorización arquitectónica para garantizar su mantenibilidad.
 
 * **Oleada 1: Esqueleto Modular y Configuración Base (Fases 1-12)**
   * Creación de la estructura estricta de carpetas separando `layout`, `ui`, `features`, `hooks` y `context`[cite: 5].

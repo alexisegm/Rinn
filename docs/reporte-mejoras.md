@@ -1,4 +1,4 @@
-# Reporte de Mejoras e Iteraciones - RINN PRO
+# Reporte de Mejoras e Iteraciones - RINN
 
 > **Nota:** Este documento registra las refactorizaciones de arquitectura, la mitigación de anti-patrones y la evolución de las características de UX/UI implementadas a lo largo de las 82 fases de desarrollo del proyecto.
 
